@@ -32,7 +32,7 @@ class BulkStoreChartRequest extends FormRequest
         ];
     }
 
-    function prepareForValidation() {
+    protected function prepareForValidation() {
         $data = [];
 
         foreach ($this->toArray() as $obj) {

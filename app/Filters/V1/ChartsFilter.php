@@ -14,7 +14,7 @@ class ChartsFilter extends ApiFilter {
     ];
 
     protected $columnMap = [
-        'patient_id' => 'patientId',
+        'patientId' => 'patient_id',
         'postalCode'=> 'postal_code',
     ];
 

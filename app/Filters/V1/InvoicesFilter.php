@@ -16,6 +16,8 @@ class InvoicesFilter extends ApiFilter {
 
     protected $columnMap = [
         'postalCode'=> 'postal_code',
+        'billedDate' => 'billed_date',
+        'patientId' => 'patient_id'
     ];
 
     protected $operatorMap = [

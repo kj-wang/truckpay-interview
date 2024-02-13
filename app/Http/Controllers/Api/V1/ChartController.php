@@ -51,7 +51,7 @@ class ChartController extends Controller
 
     public function bulkStore(BulkStoreChartRequest $request) {
         $bulk = collect($request->all())->map(function ($arr, $key) {
-            return Arr::except($arr, ['patientId', 'billedDate', 'paidDate']);
+            return Arr::except($arr, ['patientId', 'visitDate']);
         });
 
         Chart::insert($bulk->toArray());

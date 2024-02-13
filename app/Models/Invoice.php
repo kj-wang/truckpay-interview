@@ -13,7 +13,7 @@ class Invoice extends Model
         "patient_id",
         "amount",
         "status",
-        "billedDate",
+        "billed_date",
         "paid_date"
     ];
 
