@@ -24,11 +24,15 @@ class PatientController extends Controller
         $filterItems = $filter->transform($request);
 
         $includeInvoices = $request->query('includeInvoices');
+        $includeCharts = $request->query('includeCharts');
+
 
         $patients = Patient::where($filterItems);
         
         if ($includeInvoices) {
             $patients = $patients->with('invoices');
+        } elseif ($includeCharts) {
+            $patients = $patients->with('charts');
         }
 
         return new PatientCollection($patients->paginate()->appends($request->query()));
@@ -51,9 +55,12 @@ class PatientController extends Controller
     public function show(Patient $patient)
     {
         $includeInvoices = request()->query('includeInvoices');
+        $includeCharts = request()->query('includeCharts');
 
         if ($includeInvoices) {
             return new PatientResource($patient->loadMissing('invoices'));
+        } elseif ($includeCharts) {
+            return new PatientResource($patient->loadMissing('charts'));
         }
 
         return new PatientResource($patient);

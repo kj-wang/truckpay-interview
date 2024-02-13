@@ -22,4 +22,8 @@ class Patient extends Model
     public function invoices() {
         return $this->hasMany(Invoice::class);
     }
+
+    public function charts() {
+        return $this->hasMany(Chart::class);
+    }
 }

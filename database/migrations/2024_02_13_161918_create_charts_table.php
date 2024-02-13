@@ -11,8 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->string('auth')->nullable();
+        Schema::create('charts', function (Blueprint $table) {
+            $table->id();
+            $table->integer('patient_id');
+            $table->string('treatable');
+            $table->integer('prescriptions');
+            $table->dateTime('visit_date');
+            $table->timestamps();
         });
     }
 
@@ -21,8 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('charts');
     }
 };

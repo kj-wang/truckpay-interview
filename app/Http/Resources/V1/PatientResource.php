@@ -24,6 +24,7 @@ class PatientResource extends JsonResource
             'state'=> $this->state,
             'postalCode'=> $this->postal_code,
             'invoices' => InvoiceResource::collection($this->whenLoaded('invoices')),
+            'charts' => ChartResource::collection($this->whenLoaded('charts')),
         ];
     }
 }

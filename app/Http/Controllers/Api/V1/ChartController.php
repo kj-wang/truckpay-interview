@@ -2,34 +2,34 @@
 
 namespace App\Http\Controllers\Api\V1;
 
-use App\Filters\V1\InvoicesFilter;
-use App\Http\Requests\V1\StoreInvoiceRequest;
-use App\Http\Requests\UpdateInvoiceRequest;
+use App\Filters\V1\ChartsFilter;
+use App\Http\Requests\V1\StoreChartRequest;
+use App\Http\Requests\UpdateChartRequest;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\V1\InvoiceCollection;
-use App\Http\Resources\V1\InvoiceResource;
+use App\Http\Resources\V1\ChartCollection;
+use App\Http\Resources\V1\ChartResource;
 
-use App\Models\Invoice;
+use App\Models\Chart;
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Arr;
-use App\Http\Requests\V1\BulkStoreInvoiceRequest;
+use App\Http\Requests\V1\BulkStoreChartRequest;
 
-class InvoiceController extends Controller
+class ChartController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index(Request $request)
     {
-        $filter = new InvoicesFilter();
+        $filter = new ChartsFilter();
         $queryItems = $filter->transform($request);
 
         if (count($queryItems) == 0) {
-            return new InvoiceCollection(Invoice::paginate());
+            return new ChartCollection(Chart::paginate());
         } else {
-            $invoices = Invoice::where($queryItems)->paginate();
-            return new InvoiceCollection($invoices->appends($request->query()));
+            $Charts = Chart::where($queryItems)->paginate();
+            return new ChartCollection($Charts->appends($request->query()));
         }
 
     }
@@ -44,31 +44,31 @@ class InvoiceController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreInvoiceRequest $request)
+    public function store(StoreChartRequest $request)
     {
-        // return new InvoiceResource(Invoice::create($request->all()));
+        return new ChartResource(Chart::create($request->all()));
     }
 
-    public function bulkStore(BulkStoreInvoiceRequest $request) {
+    public function bulkStore(BulkStoreChartRequest $request) {
         $bulk = collect($request->all())->map(function ($arr, $key) {
             return Arr::except($arr, ['patientId', 'billedDate', 'paidDate']);
         });
 
-        Invoice::insert($bulk->toArray());
+        Chart::insert($bulk->toArray());
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Invoice $invoice)
+    public function show(Chart $Chart)
     {
-        return new InvoiceResource($invoice);
+        return new ChartResource($Chart);
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Invoice $invoice)
+    public function edit(Chart $Chart)
     {
         //
     }
@@ -76,7 +76,7 @@ class InvoiceController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateInvoiceRequest $request, Invoice $invoice)
+    public function update(UpdateChartRequest $request, Chart $Chart)
     {
         //
     }
@@ -84,7 +84,7 @@ class InvoiceController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Invoice $invoice)
+    public function destroy(Chart $Chart)
     {
         //
     }

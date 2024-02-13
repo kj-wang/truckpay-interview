@@ -5,7 +5,7 @@ namespace App\Http\Requests\V1;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class StoreInvoiceRequest extends FormRequest
+class BulkStoreChartRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -14,7 +14,7 @@ class StoreInvoiceRequest extends FormRequest
     {
         $user = $this->user();
 
-        return $user != null && $user->tokenCan('create');
+        return $user != null && $user->tokenCan('doctor:create');
     }
 
     /**
@@ -25,21 +25,19 @@ class StoreInvoiceRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'patientId' => ['required', 'integer'],
-            'amount'=> ['required', 'numeric'],
-            'status'=> ['required', Rule::in(['B', 'P', 'V', 'b', 'p', 'v'])],
-            'billedDate'=> ['required', 'date_format:Y-m-d H:i:s'],
-            'paidDate'=> ['date_format:Y-m-d H:i:s','nullable']
+            '*.patientId' => ['required', 'integer'],
+            '*.prescriptions'=> ['required', 'numeric'],
+            '*.treatable'=> ['required', Rule::in(['Y', 'N'])],
+            '*.visitDate'=> ['required', 'date_format:Y-m-d H:i:s'],
         ];
     }
 
-    protected function prepareForValidation() {
+    function prepareForValidation() {
         $data = [];
 
         foreach ($this->toArray() as $obj) {
             $obj['patient_id'] = $obj['patientId'] ?? null;
-            $obj['billed_date'] = $obj['billedDate'] ?? null;
-            $obj['paid_date'] = $obj['paidDate'] ?? null;
+            $obj['visit_date'] = $obj['visitDate'] ?? null;
 
             $data[] = $obj;
         }

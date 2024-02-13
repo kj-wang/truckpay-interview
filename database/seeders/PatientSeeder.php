@@ -16,16 +16,19 @@ class PatientSeeder extends Seeder
         Patient::factory()
             ->count(25)
             ->hasInvoices(10)
+            ->hasCharts(10)
             ->create();
 
         Patient::factory()
             ->count(100)
             ->hasInvoices(5)
+            ->hasCharts(5)
             ->create();
 
         Patient::factory()
             ->count(100)
             ->hasInvoices(3)
+            ->hasCharts(3)
             ->create();
 
         Patient::factory()

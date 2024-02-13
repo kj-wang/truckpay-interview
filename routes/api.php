@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\V1\ChartController;
 use App\Http\Controllers\Api\V1\InvoiceController;
 use App\Http\Controllers\Api\V1\PatientController;
 use Illuminate\Http\Request;
@@ -25,9 +26,14 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::group(['prefix'=> 'v1', 'namespace' => 'App\Http\Controllers\Api\V1', 'middleware' => 'auth:sanctum'], function () {
     Route::apiResource('patients', PatientController::class);
     Route::apiResource('invoices', InvoiceController::class);
+    Route::apiResource('charts', ChartController::class);
+
 
     Route::post('invoices/bulk', ['uses' => 'InvoiceController@bulkStore']);
+    Route::post('charts/bulk', ['uses' => 'ChartController@bulkStore']);
+
 
     Route::middleware('api')->post('/signup', [AuthController::class, 'signup']);
+    Route::middleware('api')->post('/login', [AuthController::class, ',login']);
     // Route::post('/signup', [AuthController::class, 'signup']);
 });
