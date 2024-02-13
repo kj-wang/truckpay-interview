@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\V1\InvoiceController;
 use App\Http\Controllers\Api\V1\PatientController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\V1\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,4 +27,7 @@ Route::group(['prefix'=> 'v1', 'namespace' => 'App\Http\Controllers\Api\V1', 'mi
     Route::apiResource('invoices', InvoiceController::class);
 
     Route::post('invoices/bulk', ['uses' => 'InvoiceController@bulkStore']);
+
+    Route::middleware('api')->post('/signup', [AuthController::class, 'signup']);
+    // Route::post('/signup', [AuthController::class, 'signup']);
 });

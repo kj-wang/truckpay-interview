@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 
+use App\Http\Controllers\Api\V1\AuthController;
+use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -50,4 +52,38 @@ Route::get('/setup', function () {
 
         }
     }
+});
+
+Route::post('/signup', function (Request $request) {
+    $request->validate([
+        'name' => 'required|string',
+        'email' => 'required|email|unique:users,email',
+        'password' => 'required|string|min:8',
+        'permissions' => 'array',
+    ]);
+
+    $credentials = [
+        'email' => $request->email,
+        'password'=> $request->password
+    ];
+
+    if (!Auth::attempt($credentials)) {
+        $user = new \App\Models\User();
+
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->password = Hash::make($request->password);
+
+        $user->save();
+
+        if (Auth::attempt($credentials)) {
+            $user = Auth::user();
+
+            $token = $user->createToken($user->email, $request->permissions)->plainTextToken;
+
+            return ['token' => $token];
+        }
+    }
+
+    return response()->json(['message' => 'Failed to create user or generate token'], 500);
 });

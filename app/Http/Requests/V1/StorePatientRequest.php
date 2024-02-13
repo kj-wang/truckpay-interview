@@ -5,7 +5,7 @@ namespace App\Http\Requests\V1;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class StoreCustomerRequest extends FormRequest
+class StorePatientRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,7 +26,8 @@ class StoreCustomerRequest extends FormRequest
     {
         return [
             'name' => ['required'],
-            'type'=> ['required', Rule::in(['I', 'B', 'i', 'b'])],
+            'type'=> ['required', Rule::in(["Healthy","Diabetes","High Blood Pressure",
+                "Cancer","Kidney Failure","Liver Damage","Deceased"])],
             'email'=> ['required', 'email'],
             'address'=> ['required'],
             'city'=> ['required'],
@@ -35,7 +36,8 @@ class StoreCustomerRequest extends FormRequest
         ];
     }
 
-    function prepareForValidation() {
+    protected function prepareForValidation()
+    {
         $this->merge([
             'postal_code' => $this->postalCode,
         ]);
