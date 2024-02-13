@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 
 use App\Http\Controllers\Api\V1\AuthController;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 /*
@@ -81,9 +82,49 @@ Route::post('/signup', function (Request $request) {
 
             $token = $user->createToken($user->email, $request->permissions)->plainTextToken;
 
+            $user->auth = ($token);
+            $user->save();
+
             return ['token' => $token];
         }
     }
-
     return response()->json(['message' => 'Failed to create user or generate token'], 500);
+});
+
+
+Route::get('/login', function (Request $request) {
+    // Validate the request data
+    $request->validate([
+        'email' => 'required',
+    ]);
+
+    $email = $request->input('email');
+    // Retrieve the user by email
+    // $user = Auth::user();   
+    // $token = $user->tokens()->where('personal_access_tokens.name', $email)->first();
+    $user = User::where('email', $email)->first();
+
+    if ($user) {
+        return ['auth' => $user->auth]; // Assuming 'auth' is the name of the column
+    } else {
+        return response()->json(['message' => 'User not found'], 404);
+    }
+
+    // return ['token'=> $token];
+
+    // $user = User::where('name', $email)->first();
+
+    // // if the user exists
+    // if ($user) {
+    //     // return response()->json(['message'=> 'this is here'],200);
+    //     $token = $user->tokens()->first();
+
+    //     if ($token) {
+    //         // Return the token in plain text
+    //         return ['token' => $token->plainTextToken];
+    //     }
+    // }
+
+    // If user or token not found, return an error response
+    return response()->json(['error' => 'User or token not found'], 404);
 });

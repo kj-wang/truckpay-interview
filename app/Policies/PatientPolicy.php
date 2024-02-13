@@ -13,7 +13,7 @@ class PatientPolicy
      */
     public function viewAny(User $user): bool
     {
-        //
+        return $user != null && $user->tokenCan('view');
     }
 
     /**
@@ -21,7 +21,7 @@ class PatientPolicy
      */
     public function view(User $user, Patient $patient): bool
     {
-        //
+        return $user != null && $user->tokenCan('view');
     }
 
     /**
