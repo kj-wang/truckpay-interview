@@ -2,7 +2,7 @@ import axios from "axios";
 import { useStateContext } from "./contexts/ContextProvider";
 
 const axiosClient = axios.create({
-    baseURL: `${import.meta.env.VITE_API_BASE_URL}/api/v1`
+    baseURL: 'http://localhost:8001/'
 });
 
 axiosClient.interceptors.request.use((config) => {

@@ -1,6 +1,6 @@
 import {Link} from "react-router-dom";
 import {createRef, useState} from "react";
-import axiosClient from "../axios-client.js";
+// import axiosClient from "../axios-client.js";
 import { useStateContext } from "../contexts/ContextProvider.jsx";
 import axios from 'axios';
 
@@ -9,7 +9,7 @@ export default function Signup() {
   const emailRef = createRef()
   const passwordRef = createRef()
   const passwordConfirmationRef = createRef()
-  const [permissions, setPermissions] = useState([]);
+  const [permissions, setPermissions] = useState(["view"]);
 
   const {setUser, setToken} = useStateContext()
   const [errors, setErrors] = useState(null)
@@ -49,12 +49,23 @@ export default function Signup() {
         }
       }) 
       .then(res => {
-        console.log(res);
+        console.log(res)
+        const currToken = res.data;
+        setUser(currToken.user)
+        setToken(currToken.token);
+
+        console.log(`this is user:  ${currToken.user}`)
+        console.log(`this is token: ${currToken.token}`)
         alert("Successfully signed up!");
       })
       .catch(err => {
-        console.log(err)
+        console.log(err);
         alert("Did not sign up!");
+
+        const response = err.response;
+        if (response && response.status == 422) {
+          setErrors(response.data.errors)
+        }
       })
   }
 
@@ -75,16 +86,16 @@ export default function Signup() {
           <input ref={passwordRef} type="password" placeholder="Password"/>
           <input ref={passwordConfirmationRef} type="password" placeholder="Repeat Password"/>
 
-          <div>
+          {/* <div>
             <input 
               type="checkbox" 
               value="create"
               checked={permissions.includes('create')}
               onChange={handleChange}
               /> Create
-          </div>
+          </div> */}
 
-          <div>
+          {/* <div>
             <input 
               type="checkbox" 
               value="view"
@@ -109,7 +120,7 @@ export default function Signup() {
               checked={permissions.includes('doctor:create')}
               onChange={handleChange}
               /> Doctor Create
-          </div>
+          </div> */}
 
           <button className="btn btn-block">Signup</button>
           <p className="message">Already registered? <Link to="/login">Sign In</Link></p>

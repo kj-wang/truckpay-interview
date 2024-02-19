@@ -87,18 +87,20 @@ Route::post('/signup', function (Request $request) {
             $user->auth = ($token);
             $user->save();
 
-            return ['token' => $token];
+            // return ['token' => $token];
+            return response(compact('user', 'token'));
+
         }
     }
     return response()->json(['message' => 'Failed to create user or generate token'], 500);
 })->middleware('api');
 
 
-Route::get('/login', function (Request $request) {
+Route::post('/login', function (Request $request) {
     // Validate the request data
     $request->validate([
-        'email' => 'required',
-        // 'password'=> 'required'
+        'email' => 'email',
+        'password'=> 'required'
     ]);
 
     $email = $request->input('email');
@@ -110,27 +112,23 @@ Route::get('/login', function (Request $request) {
     $user = User::where('email', $email)->first();
 
     if ($user) {
-        return ['auth' => $user->auth]; // 'auth' is the name of the authorization token
+        $token = $user->auth;
+        $userInputPassword = $request->input('password');
+        if (Hash::check($userInputPassword, $user->password)) {
+            return response(compact('user', 'token'));
+        } else {
+            return response()->json(['error' => 'User password wrong'], 404);
+        }
+        // return ['auth' => $user->auth]; // 'auth' is the name of the authorization token
     }
-    // } else {
-    //     return response()->json(['message' => 'User not found'], 404);
-    // }
-
-    // return ['token'=> $token];
-
-    // $user = User::where('name', $email)->first();
-
-    // // if the user exists
-    // if ($user) {
-    //     // return response()->json(['message'=> 'this is here'],200);
-    //     $token = $user->tokens()->first();
-
-    //     if ($token) {
-    //         // Return the token in plain text
-    //         return ['token' => $token->plainTextToken];
-    //     }
-    // }
-
     // If user or token not found, return an error response
     return response()->json(['error' => 'User or token not found'], 404);
+});
+
+Route::post('/logout', function (Request $request) {
+    // Validate the request data
+    // $user = $request->user();
+    // $user->currentAccessToken()->delete();
+    // If user or token not found, return an error response
+    return response()->json([''], 204);
 });
