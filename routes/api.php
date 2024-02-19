@@ -32,8 +32,8 @@ Route::group(['prefix'=> 'v1', 'namespace' => 'App\Http\Controllers\Api\V1', 'mi
     Route::post('invoices/bulk', ['uses' => 'InvoiceController@bulkStore']);
     Route::post('charts/bulk', ['uses' => 'ChartController@bulkStore']);
 
-
-    Route::middleware('api')->post('/signup', [AuthController::class, 'signup']);
-    Route::middleware('api')->post('/login', [AuthController::class, ',login']);
+    // Route::middleware('web')->post('/signup');
+    // Route::middleware('web')->post('/signup', [AuthController::class, 'signup']);
+    // Route::middleware('web')->post('/login', [AuthController::class, ',login']);
     // Route::post('/signup', [AuthController::class, 'signup']);
 });

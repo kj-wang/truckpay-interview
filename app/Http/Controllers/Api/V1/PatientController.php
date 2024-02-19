@@ -8,6 +8,7 @@ use App\Http\Resources\V1\PatientResource;
 use App\Http\Resources\V1\PatientCollection;
 use Illuminate\Http\Request;
 use App\Filters\V1\PatientsFilter;
+use App\Http\Requests\V1\DeletePatientRequest;
 use App\Http\Requests\V1\StorePatientRequest;
 use App\Http\Requests\V1\UpdatePatientRequest;
 
@@ -77,8 +78,11 @@ class PatientController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Patient $patient)
+    public function destroy(DeletePatientRequest $request, Patient $patient)
     {
+        $id = $patient->id;
+        $patient = Patient::findOrFail($id);
 
+        $patient->delete();
     }
 }

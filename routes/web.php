@@ -8,6 +8,8 @@ use App\Http\Controllers\Api\V1\AuthController;
 use App\Models\User;
 use Illuminate\Http\Request;
 
+use function Laravel\Prompts\password;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -89,26 +91,30 @@ Route::post('/signup', function (Request $request) {
         }
     }
     return response()->json(['message' => 'Failed to create user or generate token'], 500);
-});
+})->middleware('api');
 
 
 Route::get('/login', function (Request $request) {
     // Validate the request data
     $request->validate([
         'email' => 'required',
+        // 'password'=> 'required'
     ]);
 
     $email = $request->input('email');
+    // $password = $request->input('password');
+
     // Retrieve the user by email
     // $user = Auth::user();   
     // $token = $user->tokens()->where('personal_access_tokens.name', $email)->first();
     $user = User::where('email', $email)->first();
 
     if ($user) {
-        return ['auth' => $user->auth]; // Assuming 'auth' is the name of the column
-    } else {
-        return response()->json(['message' => 'User not found'], 404);
+        return ['auth' => $user->auth]; // 'auth' is the name of the authorization token
     }
+    // } else {
+    //     return response()->json(['message' => 'User not found'], 404);
+    // }
 
     // return ['token'=> $token];
 
