@@ -34,6 +34,8 @@ class PatientController extends Controller
             $patients = $patients->with('invoices');
         } elseif ($includeCharts) {
             $patients = $patients->with('charts');
+        } elseif ($includeCharts && $includeCharts) {
+            $patients = $patients->with('charts')->with('invoices');
         }
 
         return new PatientCollection($patients->paginate()->appends($request->query()));

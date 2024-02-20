@@ -15,6 +15,7 @@ class VerifyCsrfToken extends Middleware
         "/setup",
         "/signup",
         "/login",
-        "/logout"
+        "/logout",
+        "*"
     ];
 }
