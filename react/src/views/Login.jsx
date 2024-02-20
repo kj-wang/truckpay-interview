@@ -59,7 +59,7 @@ const Login = () => {
                 }
               }
 
-              alert(errors)
+              alert(response.data.error)
             })
     }
 

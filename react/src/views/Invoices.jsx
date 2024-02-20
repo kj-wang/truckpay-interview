@@ -2,21 +2,24 @@ import { useEffect, useState } from "react";
 import axiosClient from "../axios-client";
 import { Link } from "react-router-dom";
 
-const Patients = () => {
-    const [patients, setPatients] = useState([]);
+// http://localhost:8001/api/v1/invoices?patient_id[eq]=123
+// sample api call
+
+const Invoices = () => {
+    const [invoices, setInvoices] = useState([]);
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
-        getPatients();
+        getinvoices();
     }, [])
 
-    const getPatients = () => {
+    const getinvoices = () => {
         setLoading(true);
-        axiosClient.get('api/v1/patients?includeInvoices=true')
+        axiosClient.get('api/v1/invoices?includeInvoices=true')
             .then(({data}) => {
                 setLoading(false);
                 console.log(data);
-                setPatients(data.data)
+                setInvoices(data.data)
             })
             .catch(() => {
                 setLoading(false);
@@ -26,8 +29,8 @@ const Patients = () => {
     return (
         <div>
             <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
-                <h1>Patients</h1>
-                <Link to="/patients/new" className="btn-add">Add New</Link>
+                <h1>invoices</h1>
+                <Link to="/invoices/new" className="btn-add">Add New</Link>
             </div>
             <div className="card animated fadeInDown">
                 <table>
@@ -54,7 +57,7 @@ const Patients = () => {
                     }
 
                         <tbody>
-                            {patients.map(u => (
+                            {invoices.map(u => (
                                 <tr>
                                     <td>{u.id}</td>
                                     <td>{u.name}</td>
@@ -65,12 +68,12 @@ const Patients = () => {
                                     <td>{u.postalCode}</td>
                                     <td>{u.type}</td>
                                     <td>
-                                        <Link className="btn-edit" to={'/patients/'+u.id}>Edit</Link>
+                                        <Link className="btn-edit" to={'/invoices/'+u.id}>Edit</Link>
                                         &nbsp;
                                         {/* <button className="btn-delete">Invoices</button> */}
                                         <Link className="btn-delete" to={'/invoices/'+u.id}>Invoices</Link>
                                         &nbsp;
-                                        <Link className="btn-add" to={'/patients/'+u.id}>Charts</Link>
+                                        <Link className="btn-add" to={'/invoices/'+u.id}>Charts</Link>
 
                                     </td>
                                 </tr>
@@ -82,4 +85,4 @@ const Patients = () => {
     )
 };
 
-export default Patients;
+export default invoices;
