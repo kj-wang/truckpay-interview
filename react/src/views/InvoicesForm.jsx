@@ -43,7 +43,7 @@ const InvoicesForm = () => {
 
     return (
         <>
-        <h1>New invoice</h1>
+        <h1>New Invoice</h1>
         <div className="card animated fadeInDown">
             {loading && (
                 <div className="text-center">Loading...</div>

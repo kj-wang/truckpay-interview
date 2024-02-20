@@ -1,14 +1,22 @@
 import { useEffect, useState } from "react";
 import axiosClient from "../axios-client";
 import { Link } from "react-router-dom";
+import Select from 'react-select';
+
 
 const Patients = () => {
     const [patients, setPatients] = useState([]);
     const [loading, setLoading] = useState(false);
     const [page, setPage] = useState(1);
     const [lastPage, setLastPage] = useState(1);
-
     const [query, setQuery] = useState('');
+
+    const searchTerms = [{value: 'name', label: 'Name'}, {value: 'type', label: 'Type'}, {value: 'email', label: 'Email'}, 
+        {value: 'address', label: 'Address'}, {value: 'city', label: 'City'}, {value: 'state', label: 'State'}, {value: 'postalCode', label: 'Postal Code'}];
+
+    // const searchTerms = [{value: 'name', label: 'Name'}, {value: 'type', label: 'Type'}, {value: 'email', label: 'Email'}, 
+    
+        
 
     useEffect(() => {
         getPatients();
@@ -36,8 +44,13 @@ const Patients = () => {
         ev.preventDefault();
 
         const inputValue = ev.target.elements.query.value;
+        const searchValue = ev.target.elements.search.value;
+
+
         if (inputValue) {
-            setQuery(inputValue + '&');
+            const queryString = `${searchValue}[eq]=${inputValue}`
+
+            setQuery(queryString + '&');
             setPage(1)
         } else {
             setQuery('')
@@ -50,7 +63,23 @@ const Patients = () => {
             <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
                 <h1>Patients</h1>
                 <form onSubmit={handleSubmit} style={{display: 'flex', padding: '0.5rem'}}>
-                    <input name="query" style={{margin: '0rem'}} placeholder="Query"/>
+                    <div style={{padding: '1rem', width:'25rem'}}>
+                        <Select
+                            className="basic-single"
+                            classNamePrefix="select"
+                            defaultValue={searchTerms[0]}
+                            isDisabled={false}
+                            isLoading={false}
+                            isClearable={true}
+                            isRtl={false}
+                            isSearchable={true}
+                            name="search"
+                            options={searchTerms}
+                        />
+                    </div>
+
+
+                    <input name="query" style={{margin: 'auto'}} placeholder="Query"/>
                     <button className="btn" style={{fontSize: '0.8rem', margin: '0.5rem', alignItems: 'center', borderRadius: '4px'}}>Search</button>
                 </form>
 
