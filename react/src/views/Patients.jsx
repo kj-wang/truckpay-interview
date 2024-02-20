@@ -8,28 +8,52 @@ const Patients = () => {
     const [page, setPage] = useState(1);
     const [lastPage, setLastPage] = useState(1);
 
+    const [query, setQuery] = useState('');
+
     useEffect(() => {
         getPatients();
-    }, [page])
+    }, [page, query])
 
     const getPatients = () => {
         setLoading(true);
-        axiosClient.get('api/v1/patients?page='+page)
+        axiosClient.get(`api/v1/patients?${query}page=${page}`)
             .then(({data}) => {
                 setLoading(false);
                 setLastPage(data.meta.last_page)
                 console.log(data);
+                console.log(`this is the successful call: api/v1/patients?${query}page=${page}`)
                 setPatients(data.data)
             })
             .catch(() => {
                 setLoading(false);
+                // console.log(data)
+                console.log(`this is query: ${query}`)
+                console.log(`api/v1/patients?${query}page=${page}`)
             })
     }
+
+    const handleSubmit = (ev) => {
+        ev.preventDefault();
+
+        const inputValue = ev.target.elements.query.value;
+        if (inputValue) {
+            setQuery(inputValue + '&');
+            setPage(1)
+        } else {
+            setQuery('')
+        }
+    }
+
 
     return (
         <div>
             <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
                 <h1>Patients</h1>
+                <form onSubmit={handleSubmit} style={{display: 'flex', padding: '0.5rem'}}>
+                    <input name="query" style={{margin: '0rem'}} placeholder="Query"/>
+                    <button className="btn" style={{fontSize: '0.8rem', margin: '0.5rem', alignItems: 'center'}}>Search</button>
+                </form>
+
                 <Link to="/patients/new" className="btn-add">Add New</Link>
             </div>
             <div className="card animated fadeInDown">
