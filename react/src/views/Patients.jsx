@@ -70,7 +70,7 @@ const Patients = () => {
                             defaultValue={searchTerms[0]}
                             isDisabled={false}
                             isLoading={false}
-                            isClearable={true}
+                            isClearable={false}
                             isRtl={false}
                             isSearchable={true}
                             name="search"
