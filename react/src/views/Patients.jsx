@@ -70,7 +70,7 @@ const Patients = () => {
                                         {/* <button className="btn-delete">Invoices</button> */}
                                         <Link className="btn-delete" to={'/invoices/'+u.id}>Invoices</Link>
                                         &nbsp;
-                                        <Link className="btn-add" to={'/patients/'+u.id}>Charts</Link>
+                                        <Link className="btn-add" to={'/charts/'+u.id}>Charts</Link>
 
                                     </td>
                                 </tr>

@@ -9,6 +9,8 @@ import Dashboard from "./views/Dashboard";
 import PatientsForm from "./views/PatientsForm";
 import Invoices from "./views/Invoices";
 import InvoicesForm from "./views/InvoicesForm";
+import Charts from "./views/Charts";
+import ChartsForm from "./views/ChartsForm";
 
 const router = createBrowserRouter([
     {
@@ -43,6 +45,14 @@ const router = createBrowserRouter([
                 path: '/invoices/:id',
                 element: <Invoices key="invoiceUpdate"/>
             },
+            {
+                path: '/charts/new/:id',
+                element: <ChartsForm key="chartCreate"/>
+            },
+            {
+                path: '/charts/:id',
+                element: <Charts key="chartUpdate"/>
+            }
         ]
     },
     {
