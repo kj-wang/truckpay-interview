@@ -5,16 +5,19 @@ import { Link } from "react-router-dom";
 const Patients = () => {
     const [patients, setPatients] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [page, setPage] = useState(1);
+    const [lastPage, setLastPage] = useState(1);
 
     useEffect(() => {
         getPatients();
-    }, [])
+    }, [page])
 
     const getPatients = () => {
         setLoading(true);
-        axiosClient.get('api/v1/patients?includeInvoices=true')
+        axiosClient.get('api/v1/patients?page='+page)
             .then(({data}) => {
                 setLoading(false);
+                setLastPage(data.meta.last_page)
                 console.log(data);
                 setPatients(data.data)
             })
@@ -77,6 +80,14 @@ const Patients = () => {
                             ))}
                         </tbody>
                 </table>
+
+                <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', fontSize: '14'}}>
+                        <button onClick={() => setPage(1)} className="btn-logout" style={{padding: "0.3rem 0.3rem", margin: "0.2rem"}}>First Page</button>
+                        <button onClick={() => { if (page > 1) setPage(page - 1) }} className="btn-logout" style={{padding: "0.3rem 0.3rem", margin: "0.2rem"}}>Previous Page</button>
+                        <div className="center" style={{padding: '20px 20px', fontSize: '14'}}>{page}</div>
+                        <button onClick={() => { if (page < lastPage) setPage(page + 1) }} className="btn-logout" style={{padding: "0.3rem 0.3rem", margin: "0.2rem"}}>Next Page</button>
+                        <button onClick={() => setPage(lastPage)} className="btn-logout" style={{padding: "0.3rem 0.3rem", margin: "0.2rem"}}>Last Page</button>
+                    </div>
             </div>
         </div>
     )

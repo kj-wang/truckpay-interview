@@ -63,7 +63,7 @@ const DefaultLayout = () => {
             <div className="content">
                 <header>
                     <div>
-                        Header
+                        Welcome!
                     </div>
                     <div>
                         {user.name}
