@@ -56,18 +56,19 @@ const DefaultLayout = () => {
 
     return (
         <div id="defaultLayout">
-            <aside>
+            {/* <aside>
                 <Link to="/dashboard">Dashboard</Link>
                 <Link to="/patients">Patients</Link>
-            </aside>
+            </aside> */}
             <div className="content">
                 <header>
-                    <div>
-                        Welcome!
-                    </div>
+                    <Link to="/patients" style={{textDecoration: 'none'}}>
+                        <h1>Home</h1>
+                    </Link>
                     <div>
                         {user.name}
-                        <a href="#" onClick={onLogout} className="btn-logout">Logout</a>
+                        &nbsp;
+                        <a href="#" onClick={onLogout} className="btn-logout" style={{margin: '1rem'}}>Logout</a>
                     </div>
                 </header>
                 <main>

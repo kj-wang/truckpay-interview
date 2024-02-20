@@ -42,7 +42,7 @@ const Login = () => {
       
               console.log(`this is user:  ${currToken.user}`)
               console.log(`this is token: ${currToken.token}`)
-              alert("Successful login!");
+            //   alert("Successful login!");
             })
             .catch(err => {
               console.log(err);

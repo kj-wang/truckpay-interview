@@ -51,7 +51,7 @@ const Patients = () => {
                 <h1>Patients</h1>
                 <form onSubmit={handleSubmit} style={{display: 'flex', padding: '0.5rem'}}>
                     <input name="query" style={{margin: '0rem'}} placeholder="Query"/>
-                    <button className="btn" style={{fontSize: '0.8rem', margin: '0.5rem', alignItems: 'center'}}>Search</button>
+                    <button className="btn" style={{fontSize: '0.8rem', margin: '0.5rem', alignItems: 'center', borderRadius: '4px'}}>Search</button>
                 </form>
 
                 <Link to="/patients/new" className="btn-add">Add New</Link>

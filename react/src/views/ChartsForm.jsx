@@ -42,7 +42,7 @@ const ChartsForm = () => {
 
     return (
         <>
-        <h1>New chart</h1>
+        <h1>New Chart</h1>
         <div className="card animated fadeInDown">
             {loading && (
                 <div className="text-center">Loading...</div>

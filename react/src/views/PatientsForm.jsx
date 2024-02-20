@@ -65,9 +65,12 @@ const PatientsForm = () => {
             })
             .catch(err => {
                 console.log(err);
-                alert("Did not create properly!");
+                // alert("Did not create properly!");)
         
                 const response = err.response;
+
+                alert(response.data.message);
+
                 if (response && response.status == 422) {
                   setErrors(response.data.errors)
                 }
@@ -78,8 +81,8 @@ const PatientsForm = () => {
 
     return (
         <>
-        {patient.id && <h1>Update patient: {patient.name}</h1>}
-        {!patient.id && <h1>New patient</h1>}
+        {patient.id && <h1>Update Patient: {patient.name}</h1>}
+        {!patient.id && <h1>New Patient</h1>}
         <div className="card animated fadeInDown">
             {loading && (
                 <div className="text-center">Loading...</div>
