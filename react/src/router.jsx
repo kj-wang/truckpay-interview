@@ -7,6 +7,8 @@ import DefaultLayout from "./components/DefaultLayout";
 import GuestLayout from "./components/GuestLayout";
 import Dashboard from "./views/Dashboard";
 import PatientsForm from "./views/PatientsForm";
+import Invoices from "./views/Invoices";
+import InvoicesForm from "./views/InvoicesForm";
 
 const router = createBrowserRouter([
     {
@@ -32,7 +34,15 @@ const router = createBrowserRouter([
             {
                 path: '/patients/:id',
                 element: <PatientsForm key="patientUpdate"/>
-            }
+            },
+            {
+                path: '/invoices/new/:id',
+                element: <InvoicesForm key="invoiceCreate"/>
+            },
+            {
+                path: '/invoices/:id',
+                element: <Invoices key="invoiceUpdate"/>
+            },
         ]
     },
     {
